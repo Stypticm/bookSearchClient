@@ -1,12 +1,12 @@
 import React from "react";
 import "./App.css";
-import BookCards from "./BookCards";
+import BookCards from "../../components/BookCards";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from 'react-bootstrap/Container';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import image1 from "./286x180.svg";
+import image1 from "../../image/286x180.svg";
 
 function App() {
   return (
