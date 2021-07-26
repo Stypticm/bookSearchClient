@@ -1,4 +1,7 @@
+// React
 import React from 'react';
+
+// Bootstrap
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 
