@@ -1,17 +1,41 @@
-import React, { useState } from "react";
-
+// React
+import React from "react";
 import { Button, Form, Modal } from "react-bootstrap";
+import { useBooksStore } from "../BooksContext";
 
-function AddBook() {
-  const [show, setShow] = useState(false);
+export const AddBook = () => {
+  // Store
+  const booksStore = useBooksStore();
 
+  // Card state
+  const [name, setName] = React.useState("");
+  const [genre, setGenre] = React.useState("");
+  const [readed, setReaded] = React.useState(false);
+
+  // Modal form open/close
+  const [show, setShow] = React.useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  // Changes
+  const handleChangeName = (e) => {
+    e.preventDefault();
+    setName(e.target.value);
+  };
+  const handleChangeGenre = (e) => {
+    e.preventDefault();
+    setGenre(e.target.value);
+  };
+  const handleChangeReaded = () => {
+    setReaded(!readed)
+  };
+
+  // Form submit
   const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(e.target.value);
-    setShow(false)
+    e.preventDefault();
+    booksStore.addBook(name, genre, readed);
+    setReaded(false)
+    setShow(false);
   };
 
   return (
@@ -43,26 +67,39 @@ function AddBook() {
           <Modal.Title>New book</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
+          <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="formName">
               <Form.Label>Book name</Form.Label>
-              <Form.Control type="text" placeholder="Enter book name" />
+              <Form.Control
+                type="text"
+                placeholder="Enter book name"
+                onChange={handleChangeName}
+              />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formGenre">
               <Form.Label>Genre</Form.Label>
-              <Form.Control type="text" placeholder="Enter genre of the book" />
+              <Form.Control
+                type="text"
+                placeholder="Enter genre of the book"
+                onChange={handleChangeGenre}
+              />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formReaded">
-              <Form.Check type="checkbox" label="Readed" />
+              <Form.Check
+                type="checkbox"
+                label="Readed"
+                defaultChecked={readed}
+                onChange={handleChangeReaded}
+              />
             </Form.Group>
 
             <Modal.Footer className="justify-content-around">
               <Button variant="secondary" onClick={handleClose}>
                 Close
               </Button>
-              <Button variant="primary" type="submit" onClick={handleSubmit}>
+              <Button variant="primary" type="submit">
                 Add
               </Button>
             </Modal.Footer>
@@ -71,6 +108,4 @@ function AddBook() {
       </Modal>
     </>
   );
-}
-
-export default AddBook;
+};
