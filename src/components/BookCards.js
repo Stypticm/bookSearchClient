@@ -1,21 +1,23 @@
 // React
-import React from 'react';
+import React from "react";
 
 // Bootstrap
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
+import { Card, Form } from "react-bootstrap";
 
-function bookCards({ title, text, img}) {
-    return (
-        <Card>
-            <Card.Img variant="top" src={img} />
-            <Card.Body>
-                <Card.Title>{title}</Card.Title>
-                <Card.Text>{text}</Card.Text>
-                <Button variant="primary">Go somewhere</Button>
-            </Card.Body>
-        </Card>
-    )
+function bookCards() {
+
+  return (
+    <Card className="mb-3">
+      <Card.Header>Featured</Card.Header>
+      <Card.Body>
+        <Card.Title>Special title treatment</Card.Title>
+        <Card.Text>
+          With supporting text below as a natural lead-in to additional content.
+        </Card.Text>
+        <Form.Check type="checkbox" label="Readed" />
+      </Card.Body>
+    </Card>
+  );
 }
 
 export default bookCards;

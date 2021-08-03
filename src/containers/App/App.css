@@ -31,6 +31,7 @@
 .content-body__left-side{
   color: black;
   padding-top: 30px;
+  border-right: 1px solid rgb(118, 118, 118);
 }
 
 .content-body__main-content {

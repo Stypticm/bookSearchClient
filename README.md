@@ -4,6 +4,6 @@
 
 Технологии:
 - React
-- Redux
+- Mobx
 - Firebase
 - Bootstrap

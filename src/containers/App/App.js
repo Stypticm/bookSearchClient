@@ -1,17 +1,26 @@
 // React
-import React from "react";
+import React, { useState } from "react";
+
+//MobX
+import { observer } from "mobx-react";
+import CounterStore from "../../store";
 
 // Import Components
-// import BookCards from "../../components/BookCards";
+import BookCards from "../../components/BookCards";
+import AddBook from "../../components/AddBook";
 
 // Style
 import "./App.css";
 
 // Bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button, Card, Col, Form, Row, NavDropdown, Navbar } from "react-bootstrap";
+import { Button, Col, Row, NavDropdown, Navbar } from "react-bootstrap";
 
-function App() {
+const App = observer((props) => {
+  const [firstBook, setFirstBook] = useState("");
+
+  const { count, increase, decrease } = CounterStore;
+
   return (
     <div className="App">
       <div className="header">
@@ -19,6 +28,7 @@ function App() {
           <Navbar.Brand className="brand">Book Search</Navbar.Brand>
         </div>
         <div>
+          <AddBook />
           <Button variant="outline-dark" className="button-info">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -59,38 +69,21 @@ function App() {
               <NavDropdown title="Sort by: ">
                 <NavDropdown.Item href="#">Name</NavDropdown.Item>
                 <NavDropdown.Item href="#">Rank</NavDropdown.Item>
+                <NavDropdown.Item href="#">Unreaded</NavDropdown.Item>
               </NavDropdown>
             </Col>
             <Col xs={12}>
-              <Card className="mb-3">
-                <Card.Header>Featured</Card.Header>
-                <Card.Body>
-                  <Card.Title>Special title treatment</Card.Title>
-                  <Card.Text>
-                    With supporting text below as a natural lead-in to
-                    additional content.
-                  </Card.Text>
-                  <Form.Check type="checkbox" label="Readed" />
-                </Card.Body>
-              </Card>
-              <Card className="mb-3">
-                <Card.Header>Featured</Card.Header>
-                <Card.Body>
-                  <Card.Title>Special title treatment</Card.Title>
-                  <Card.Text>
-                    With supporting text below as a natural lead-in to
-                    additional content.
-                  </Card.Text>
-                  <Form.Check type="checkbox" label="Readed" />
-                </Card.Body>
-              </Card>
-              
+              <BookCards />
+
+              <h1>{count}</h1>
+              <button onClick={increase}>increment</button>
+              <button onClick={decrease}>decrement</button>
             </Col>
           </Row>
         </Col>
       </Row>
     </div>
   );
-}
+});
 
 export default App;
