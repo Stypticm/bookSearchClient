@@ -15,6 +15,11 @@ export const BookCards = ({ name, genre, readed, id }) => {
     booksStore.removeBook(id)
   }
 
+  // Readed button
+  const handleChangeReaded = (e) => {
+    console.log(e.target.value);
+  }
+
   return (
     <Card className="mb-3">
       <Card.Header>{name}</Card.Header>
@@ -23,7 +28,7 @@ export const BookCards = ({ name, genre, readed, id }) => {
         <Card.Text>
           With supporting text below as a natural lead-in to additional content.
         </Card.Text>
-        <Form.Check type="checkbox" label="Readed" defaultChecked={readed} />
+        <Form.Check type="checkbox" label="Readed" defaultChecked={readed} onChange={handleChangeReaded}/>
         <Button variant="danger" onClick={handleDelete}>Delete book</Button>
       </Card.Body>
     </Card>
