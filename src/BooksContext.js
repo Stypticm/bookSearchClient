@@ -1,12 +1,11 @@
 import React from 'react'
-import { createStore } from './store/booksStore'
-import { useLocalObservable } from 'mobx-react-lite'
+import CreateStore from './store/booksStore'
 
 const BooksContext = React.createContext(null)
 
 export const BooksProvider = ({ children }) => {
 
-    const booksStore = useLocalObservable(createStore)
+    const booksStore = CreateStore
 
     return <BooksContext.Provider value={booksStore}>
         {children}
