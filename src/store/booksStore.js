@@ -5,7 +5,7 @@ class CreateStore {
   books = [
     { id: 0, name: "Book1", genre: "comedy", readed: false, show: true },
     { id: 1, name: "Book2", genre: "romantic", readed: false, show: true },
-    { id: 2, name: "Book3", genre: "history",readed: false, show: true },
+    { id: 2, name: "Book3", genre: "history", readed: false, show: true },
   ];
 
   constructor() {
@@ -25,6 +25,12 @@ class CreateStore {
     this.books = this.books.filter((book) => book.id !== id);
   }
 
+  readedBtn(id) {
+    this.books = this.books.map((book) =>
+      book.id === id ? { ...book, readed: !this.readed } : book
+    );
+  }
+
   filter(genre) {
     this.books.forEach((book) => {
       if (genre === "all") {
@@ -35,10 +41,6 @@ class CreateStore {
         book.show = false;
       }
     });
-  }
-
-  sortByName() {
-
   }
 }
 

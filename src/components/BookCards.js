@@ -17,7 +17,7 @@ export const BookCards = ({ name, genre, readed, id }) => {
 
   // Readed button
   const handleChangeReaded = (e) => {
-    console.log(e.target.value);
+    booksStore.readedBtn(id)
   }
 
   return (
