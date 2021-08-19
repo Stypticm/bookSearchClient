@@ -11,6 +11,7 @@ import { useBooksStore } from "../../BooksContext";
 import { BookCards } from "../../components/BookCards";
 import { AddBook } from "../../components/AddBook";
 import { Filter } from "../../components/Filter";
+// import { Search } from "../../components/Search";
 
 // Style
 import "./App.css";
@@ -20,7 +21,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Col, Row, NavDropdown, Navbar } from "react-bootstrap";
 
 export const App = observer(() => {
+
   const booksStore = useBooksStore();
+
+  const sortName = () => {
+    booksStore.sortByName();
+  };
 
   return (
     <div className="App">
@@ -50,12 +56,13 @@ export const App = observer(() => {
         </Col>
         <Col sm={8} className="content-body__main-content">
           <Row>
-            <Col xs={12}>
-              <NavDropdown title="Sort by: ">
-                <NavDropdown.Item onClick={() => console.log('sort by name')}>Name</NavDropdown.Item>
-                <NavDropdown.Item onClick={() => console.log('sort by rank')}>Rank</NavDropdown.Item>
-                <NavDropdown.Item onClick={() => console.log('sort by unreaded')}>Unreaded</NavDropdown.Item>
-              </NavDropdown>
+            <Col style={{ display: "flex", justifyContent: "space-between" }}>
+              <Col xs={2}>
+                <NavDropdown title="Sort by: ">
+                  <NavDropdown.Item onClick={sortName}>Name</NavDropdown.Item>
+                </NavDropdown>
+              </Col>
+              <Col xs={10}>{/* <Search /> */}</Col>
             </Col>
             <Col xs={12}>
               {booksStore.books.map((book) =>
@@ -65,6 +72,7 @@ export const App = observer(() => {
                     name={book.name}
                     genre={book.genre}
                     readed={book.readed}
+                    show={book.show}
                     id={book.id}
                   />
                 ) : (

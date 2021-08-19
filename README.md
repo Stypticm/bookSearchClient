@@ -4,5 +4,5 @@
 Технологии:
 - React
 - Mobx
-- Firebase
+- Strapi
 - Bootstrap

@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "libraries",
+  "info": {
+    "name": "Book",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "genre": {
+      "type": "string",
+      "required": true
+    },
+    "readed": {
+      "type": "boolean"
+    },
+    "show": {
+      "type": "boolean"
+    }
+  }
+}

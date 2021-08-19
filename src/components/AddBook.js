@@ -11,9 +11,9 @@ export const AddBook = () => {
   const [name, setName] = React.useState("");
   const [genre, setGenre] = React.useState("");
   const [readed, setReaded] = React.useState(false);
+  const [show, setShow] = React.useState(false);
 
   // Modal form open/close
-  const [show, setShow] = React.useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -33,7 +33,7 @@ export const AddBook = () => {
   // Form submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    booksStore.addBook(name, genre, readed);
+    booksStore.addBook(name, genre, readed, show);
     setReaded(false)
     setShow(false);
   };
