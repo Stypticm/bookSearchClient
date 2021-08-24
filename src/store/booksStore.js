@@ -1,50 +1,47 @@
 import { nanoid } from "nanoid";
 import { makeAutoObservable } from "mobx";
+import axios from 'axios'
 
-const getBooks = fetch("http://localhost:1337/libraries", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => data)
+const getBooks = axios.get("http://localhost:1337/books")
 
 class CreateStore {
-
   
-
-  // books = [
-  //   { id: 0, name: "Book0", genre: "comedy", readed: false, show: true },
-  //   { id: 2, name: "Book2", genre: "history", readed: false, show: true },
-  //   { id: 3, name: "Book3", genre: "romantic", readed: false, show: true },
-  //   { id: 4, name: "Book4", genre: "history", readed: false, show: true },
-  //   { id: 1, name: "Book1", genre: "romantic", readed: false, show: true },
-  //   { id: 5, name: "Book5", genre: "comedy", readed: false, show: true },
-  // ];
+  books = []
 
   constructor() {
     makeAutoObservable(this);
+    this.books = getBooks
   }
+  
 
-  addBook(name, genre, readed, show) {
-    this.books.push({
+  addBook(name, author, genre, readed, show) {
+    axios.post('http://localhost:1337/books', {
       id: nanoid(),
-      name,
-      genre,
-      readed,
-      show
-    });
+      name: name,
+      author: author,
+      genre: genre,
+      readed: readed,
+      show: show
+    })
+    .then(response => {
+      console.log(this.books)
+    })
   }
 
   removeBook(id) {
-    this.books = this.books.filter((book) => book.id !== id);
+    // this.books = this.books.filter((book) => book.id !== id);
+    axios.delete(`http://localhost:1337/books/${id}`).then(getBooks)
   }
 
   readedBtn(id) {
-    this.books = this.books.map((book) =>
-      book.id === id ? { ...book, readed: !this.readed } : book
-    );
+    // this.books = this.books.map((book) =>
+    //   book.id === id ? { ...book, readed: !this.readed } : book
+    // );
+    axios.put(`http://localhost:1337/books/${id}`, {
+      readed: !this.readed
+    }).then(response => {
+      console.log(response.data.readed)
+    })
   }
 
   filter(genre) {

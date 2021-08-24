@@ -1,5 +1,5 @@
 // React
-import React from "react";
+import React, { useEffect } from "react";
 
 // MobX
 import { observer } from "mobx-react-lite";
@@ -21,8 +21,17 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Col, Row, NavDropdown, Navbar } from "react-bootstrap";
 
 export const App = observer(() => {
+  const [books, setBooks] = React.useState([]);
 
   const booksStore = useBooksStore();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const getBooksResult = await booksStore.books;
+      setBooks(getBooksResult.data)
+    };
+    fetchData();
+  }, []);
 
   const sortName = () => {
     booksStore.sortByName();
@@ -65,11 +74,12 @@ export const App = observer(() => {
               <Col xs={10}>{/* <Search /> */}</Col>
             </Col>
             <Col xs={12}>
-              {booksStore.books.map((book) =>
+              {books.map((book) =>
                 book.show === true ? (
                   <BookCards
                     key={book.id}
                     name={book.name}
+                    author={book.author}
                     genre={book.genre}
                     readed={book.readed}
                     show={book.show}

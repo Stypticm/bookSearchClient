@@ -5,13 +5,12 @@ import { useBooksStore } from "../BooksContext";
 // Bootstrap
 import { Button, Card, Form } from "react-bootstrap";
 
-export const BookCards = ({ name, genre, readed, id }) => {
+export const BookCards = ({ name, author, genre, readed, id }) => {
   // Store
   const booksStore = useBooksStore();
 
   // Delete Button
   const handleDelete = (e) => {
-    e.preventDefault()
     booksStore.removeBook(id)
   }
 
@@ -24,6 +23,7 @@ export const BookCards = ({ name, genre, readed, id }) => {
     <Card className="mb-3">
       <Card.Header>{name}</Card.Header>
       <Card.Body>
+        <Card.Title>Author: {author}</Card.Title>
         <Card.Title>Genre: {genre}</Card.Title>
         <Card.Text>
           With supporting text below as a natural lead-in to additional content.

@@ -9,6 +9,7 @@ export const AddBook = () => {
 
   // Card state
   const [name, setName] = React.useState("");
+  const [author, setAuthor] = React.useState("");
   const [genre, setGenre] = React.useState("");
   const [readed, setReaded] = React.useState(false);
   const [show, setShow] = React.useState(false);
@@ -22,19 +23,23 @@ export const AddBook = () => {
     e.preventDefault();
     setName(e.target.value);
   };
+  const handleChangeAuthor = (e) => {
+    e.preventDefault();
+    setAuthor(e.target.value);
+  };
   const handleChangeGenre = (e) => {
     e.preventDefault();
     setGenre(e.target.value);
   };
   const handleChangeReaded = () => {
-    setReaded(!readed)
+    setReaded(!readed);
   };
 
   // Form submit
   const handleSubmit = (e) => {
-    e.preventDefault();
-    booksStore.addBook(name, genre, readed, show);
-    setReaded(false)
+    e.preventDefault()
+    booksStore.addBook(name, author, genre, readed, show);
+    setReaded(false);
     setShow(false);
   };
 
@@ -74,6 +79,15 @@ export const AddBook = () => {
                 type="text"
                 placeholder="Enter book name"
                 onChange={handleChangeName}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formName">
+              <Form.Label>Book author</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter book author"
+                onChange={handleChangeAuthor}
               />
             </Form.Group>
 
