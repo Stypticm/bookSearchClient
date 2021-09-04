@@ -11,13 +11,13 @@ export const BookCards = ({ name, author, genre, readed, id }) => {
 
   // Delete Button
   const handleDelete = (e) => {
-    booksStore.removeBook(id)
-  }
+    booksStore.removeBook(id);
+  };
 
   // Readed button
   const handleChangeReaded = (e) => {
-    booksStore.readedBtn(id)
-  }
+    booksStore.readedBtn(id);
+  };
 
   return (
     <Card className="mb-3">
@@ -26,10 +26,19 @@ export const BookCards = ({ name, author, genre, readed, id }) => {
         <Card.Title>Author: {author}</Card.Title>
         <Card.Title>Genre: {genre}</Card.Title>
         <Card.Text>
-          With supporting text below as a natural lead-in to additional content.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras rutrum
+          massa et tincidunt aliquam. Curabitur bibendum nunc ac ipsum
+          vulputate.
         </Card.Text>
-        <Form.Check type="checkbox" label="Readed" defaultChecked={readed} onChange={handleChangeReaded}/>
-        <Button variant="danger" onClick={handleDelete}>Delete book</Button>
+        <Form.Check
+          type="checkbox"
+          label="Readed"
+          defaultChecked={readed}
+          onChange={handleChangeReaded}
+        />
+        <Button variant="danger" onClick={handleDelete}>
+          Delete book
+        </Button>
       </Card.Body>
     </Card>
   );

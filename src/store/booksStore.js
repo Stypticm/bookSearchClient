@@ -1,47 +1,49 @@
 import { nanoid } from "nanoid";
 import { makeAutoObservable } from "mobx";
-import axios from 'axios'
-
-const getBooks = axios.get("http://localhost:1337/books")
+import axios from "axios";
 
 class CreateStore {
-  
-  books = []
+  books = [];
 
-  constructor() {
+  constructor(transportLayer) {
     makeAutoObservable(this);
-    this.books = getBooks
+    this.loadBooks()
   }
-  
+
+  // fetch All books
+  loadBooks() {
+    const getBooks = axios.get("http://localhost:1337/books");
+    return getBooks;
+  };
 
   addBook(name, author, genre, readed, show) {
-    axios.post('http://localhost:1337/books', {
+    let data = {
       id: nanoid(),
       name: name,
       author: author,
       genre: genre,
       readed: readed,
-      show: show
-    })
-    .then(response => {
-      console.log(this.books)
-    })
+      show: show,
+    };
+    axios.post("http://localhost:1337/books", data);
   }
 
   removeBook(id) {
     // this.books = this.books.filter((book) => book.id !== id);
-    axios.delete(`http://localhost:1337/books/${id}`).then(getBooks)
+    axios.delete(`http://localhost:1337/books/${id}`);
   }
 
   readedBtn(id) {
     // this.books = this.books.map((book) =>
     //   book.id === id ? { ...book, readed: !this.readed } : book
     // );
+
+    this.loadBooks().then(response => console.log(response.data))
     axios.put(`http://localhost:1337/books/${id}`, {
       readed: !this.readed
-    }).then(response => {
-      console.log(response.data.readed)
-    })
+    }).then((response) => {
+      console.log(response.data.readed);
+    });
   }
 
   filter(genre) {

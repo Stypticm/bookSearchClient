@@ -37,11 +37,18 @@ export const AddBook = () => {
 
   // Form submit
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     booksStore.addBook(name, author, genre, readed, show);
     setReaded(false);
     setShow(false);
   };
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      await booksStore.books;
+    };
+    fetchData();
+  }, [booksStore.books]);
 
   return (
     <>

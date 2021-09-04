@@ -1,5 +1,5 @@
 // React
-import React, { useEffect } from "react";
+import React from "react";
 
 // MobX
 import { observer } from "mobx-react-lite";
@@ -25,14 +25,10 @@ export const App = observer(() => {
 
   const booksStore = useBooksStore();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const getBooksResult = await booksStore.books;
-      setBooks(getBooksResult.data)
-    };
-    fetchData();
-  }, []);
-
+  React.useEffect(() => {
+    booksStore.loadBooks().then(response => setBooks(response.data));
+  });
+  
   const sortName = () => {
     booksStore.sortByName();
   };
@@ -73,23 +69,27 @@ export const App = observer(() => {
               </Col>
               <Col xs={10}>{/* <Search /> */}</Col>
             </Col>
-            <Col xs={12}>
-              {books.map((book) =>
-                book.show === true ? (
-                  <BookCards
-                    key={book.id}
-                    name={book.name}
-                    author={book.author}
-                    genre={book.genre}
-                    readed={book.readed}
-                    show={book.show}
-                    id={book.id}
-                  />
-                ) : (
-                  ""
-                )
-              )}
-            </Col>
+            {books === "" ? (
+              <Col xs={12}> Книг нет </Col>
+            ) : (
+              <Col xs={12}>
+                {books.map((book) =>
+                  book.show === true ? (
+                    <BookCards
+                      key={book.id}
+                      name={book.name}
+                      author={book.author}
+                      genre={book.genre}
+                      readed={book.readed}
+                      show={book.show}
+                      id={book.id}
+                    />
+                  ) : (
+                    ""
+                  )
+                )}
+              </Col>
+            )}
           </Row>
         </Col>
       </Row>
