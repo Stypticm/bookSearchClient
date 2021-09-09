@@ -1,11 +1,9 @@
 // React
 import React from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { useBooksStore } from "../BooksContext";
 
-export const AddBook = () => {
+export const AddBook = ({ booksLength }) => {
   // Store
-  const booksStore = useBooksStore();
 
   // Card state
   const [name, setName] = React.useState("");
@@ -38,18 +36,11 @@ export const AddBook = () => {
   // Form submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    booksStore.addBook(name, author, genre, readed, show);
+    // booksStore.addBook(name, author, genre, readed, show);
     setReaded(false);
     setShow(false);
   };
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      await booksStore.books;
-    };
-    fetchData();
-  }, [booksStore.books]);
-
+  
   return (
     <>
       <Button

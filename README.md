@@ -3,6 +3,6 @@
 
 Технологии:
 - React
-- Mobx
+- Redux
 - Strapi
 - Bootstrap

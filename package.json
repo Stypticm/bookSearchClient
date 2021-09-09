@@ -10,6 +10,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^4.5.0",
     "bootstrap-icons": "^1.5.0",
+    "concurrently": "^6.2.1",
     "firebase": "^8.8.0",
     "firebase-admin": "^9.11.0",
     "mobx": "^6.3.2",
@@ -18,14 +19,16 @@
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
-    "react-redux": "^7.2.4",
+    "react-redux": "^7.2.5",
     "react-scripts": "3.4.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "strapi": "yarn --cwd ../../strapi/project run strapi develop",
+    "dev": "concurrently --kill-others \"npm run-script strapi\" \"npm run start\""
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -1,6 +1,5 @@
 // React
 import React from "react";
-import { useBooksStore } from "../BooksContext";
 
 // Bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -8,7 +7,6 @@ import { Col, Row } from "react-bootstrap";
 
 export const Filter = () => {
   // Store
-  const booksStore = useBooksStore();
 
   return (
     <div>
@@ -23,28 +21,28 @@ export const Filter = () => {
         <Col
           xs={12}
           className="filter_links"
-          onClick={() => booksStore.filter("all")}
+          onClick={() => console.log('filter all')}
         >
           All
         </Col>
         <Col
           xs={12}
           className="filter_links"
-          onClick={() => booksStore.filter("romantic")}
+          onClick={() => console.log('filter romantic')}
         >
           Romantic
         </Col>
         <Col
           xs={12}
           className="filter_links"
-          onClick={() => booksStore.filter("history")}
+          onClick={() => console.log('filter comedy')}
         >
           History
         </Col>
         <Col
           xs={12}
           className="filter_links"
-          onClick={() => booksStore.filter("comedy")}
+          onClick={() => console.log('filter history')}
         >
           Comedy
         </Col>
@@ -52,7 +50,7 @@ export const Filter = () => {
         <Col xs={12} style={{marginTop: '15px'}}>
           <h5>Filter Read/Unread</h5>
         </Col>
-        <Col
+        {/* <Col
           xs={12}
           className="filter_links"
           onClick={() => booksStore.filterReadUnread(true)}
@@ -65,7 +63,7 @@ export const Filter = () => {
           onClick={() => booksStore.filterReadUnread(false)}
         > 
           Unread
-        </Col>
+        </Col> */}
       </Row>
     </div>
   );

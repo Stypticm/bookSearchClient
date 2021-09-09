@@ -1,22 +1,20 @@
 // React
 import React from "react";
-import { useBooksStore } from "../BooksContext";
 
 // Bootstrap
 import { Button, Card, Form } from "react-bootstrap";
 
 export const BookCards = ({ name, author, genre, readed, id }) => {
   // Store
-  const booksStore = useBooksStore();
 
   // Delete Button
   const handleDelete = (e) => {
-    booksStore.removeBook(id);
+    // booksStore.removeBook(id);
   };
 
   // Readed button
   const handleChangeReaded = (e) => {
-    booksStore.readedBtn(id);
+    // booksStore.readedBtn(id);
   };
 
   return (

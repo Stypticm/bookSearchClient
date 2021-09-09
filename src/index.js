@@ -1,18 +1,18 @@
 // React
 import React from "react";
 import ReactDOM from "react-dom";
-import { BooksProvider } from "./BooksContext";
+import { Provider } from "react-redux";
 
 // Component
 import { App } from "./containers/App/App";
+import { store } from "./redux/store";
 
 // Style
 import "./index.css";
 
 ReactDOM.render(
-  <BooksProvider>
+  <Provider store={store}>
     <App />
-  </BooksProvider>,
-
+  </Provider>,
   document.getElementById("root")
 );

@@ -1,16 +1,17 @@
 // React
-import React from "react";
+import React, { useEffect } from "react";
 
-// MobX
-import { observer } from "mobx-react-lite";
-
-//Store
-import { useBooksStore } from "../../BooksContext";
+// Redux
+import { useSelector, useDispatch } from "react-redux";
+// useSelector - читаем данные из store
+// useDispatch - получение actions
+import { booksSelector, fetchBooks } from "../../redux/booksStore";
 
 // Import Components
 import { BookCards } from "../../components/BookCards";
 import { AddBook } from "../../components/AddBook";
 import { Filter } from "../../components/Filter";
+import { Loading } from "../../components/Loading";
 // import { Search } from "../../components/Search";
 
 // Style
@@ -20,17 +21,36 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Col, Row, NavDropdown, Navbar } from "react-bootstrap";
 
-export const App = observer(() => {
-  const [books, setBooks] = React.useState([]);
+export const App = () => {
+  // Reducers
+  const { library, loading, error } = useSelector(booksSelector);
+  const dispatch = useDispatch();
 
-  const booksStore = useBooksStore();
+  // Get data first time
+  useEffect(() => {
+    dispatch(fetchBooks());
+  }, [dispatch]);
 
-  React.useEffect(() => {
-    booksStore.loadBooks().then(response => setBooks(response.data));
-  });
-  
+  const renderLibrary = () => {
+    if (loading) return <Loading />;
+    if (error) return <p>Cannot display books...</p>
+    if (library.length === 0) return  <p>Книги не найдены</p>
+
+    return library.map((book) => (
+      <BookCards
+        key={book.id}
+        name={book.name}
+        author={book.author}
+        genre={book.genre}
+        readed={book.readed}
+        show={book.show}
+        id={book.id}
+      />
+    ));
+  };
+
   const sortName = () => {
-    booksStore.sortByName();
+    // booksStore.sortByName();
   };
 
   return (
@@ -69,30 +89,10 @@ export const App = observer(() => {
               </Col>
               <Col xs={10}>{/* <Search /> */}</Col>
             </Col>
-            {books === "" ? (
-              <Col xs={12}> Книг нет </Col>
-            ) : (
-              <Col xs={12}>
-                {books.map((book) =>
-                  book.show === true ? (
-                    <BookCards
-                      key={book.id}
-                      name={book.name}
-                      author={book.author}
-                      genre={book.genre}
-                      readed={book.readed}
-                      show={book.show}
-                      id={book.id}
-                    />
-                  ) : (
-                    ""
-                  )
-                )}
-              </Col>
-            )}
+            <Col xs={12}>{renderLibrary()}</Col>
           </Row>
         </Col>
       </Row>
     </div>
   );
-});
+};
