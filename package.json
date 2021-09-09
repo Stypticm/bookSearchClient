@@ -27,8 +27,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "strapi": "yarn --cwd ../../strapi/project run strapi develop",
-    "dev": "concurrently --kill-others \"npm run-script strapi\" \"npm run start\""
+    "strapiWindows": "yarn --cwd ../../strapi/project run strapi develop",
+    "strapiMac": "yarn --cwd ../strapi/project run strapi develop",
+    "devWindows": "concurrently --kill-others \"npm run-script strapiWindows\" \"npm run start\"",
+    "devMac": "concurrently --kill-others \"npm run-script strapiMac\" \"npm run start\""
   },
   "eslintConfig": {
     "extends": "react-app"
