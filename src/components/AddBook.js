@@ -2,8 +2,13 @@
 import React from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 
-export const AddBook = ({ booksLength }) => {
+// Redux
+import { useDispatch } from "react-redux";
+import { addBook } from "../redux/booksStore";
+
+export const AddBook = () => {
   // Store
+  const dispatch = useDispatch();
 
   // Card state
   const [name, setName] = React.useState("");
@@ -36,11 +41,18 @@ export const AddBook = ({ booksLength }) => {
   // Form submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    // booksStore.addBook(name, author, genre, readed, show);
+    let data = {
+      name: name,
+      author: author,
+      genre: genre,
+      readed: readed,
+      show: show,
+    };
+    dispatch(addBook(data));
     setReaded(false);
     setShow(false);
   };
-  
+
   return (
     <>
       <Button

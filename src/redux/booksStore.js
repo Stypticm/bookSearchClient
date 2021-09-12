@@ -1,5 +1,6 @@
-import { nanoid } from "nanoid";
+// import { nanoid } from "nanoid";
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState = {
   loading: false,
@@ -12,15 +13,15 @@ export const booksSlice = createSlice({
   name: "library",
   initialState,
   reducers: {
-    getBooks: (state) => {
+    setLoading: (state) => {
       state.loading = true;
     },
-    getBooksSuccess: (state, { payload }) => {
+    setData: (state, { payload }) => {
       state.library = payload;
       state.loading = false;
       state.error = false;
     },
-    getBooksError: (state) => {
+    setError: (state) => {
       state.loading = false;
       state.error = true;
     },
@@ -28,65 +29,39 @@ export const booksSlice = createSlice({
 });
 
 // Actions
-export const { getBooks, getBooksSuccess, getBooksError } = booksSlice.actions;
+export const { setLoading, setData, setError } = booksSlice.actions;
 
-// Selector
+// Selector - экспортируем чтобы была возможность получения данных в компоненте
 export const booksSelector = (state) => state.library;
 
 // Reducer
 export default booksSlice.reducer;
 
 // fetch All books
-export function fetchBooks() {
-  return async (dispatch) => {
-    dispatch(getBooks());
+export const fetchBooks = () => async (dispatch) => {
+  dispatch(setLoading());
 
-    try {
-      const response = await fetch("http://localhost:1337/books");
-      const data = await response.json();
+  try {
+    axios.get("http://localhost:1337/books").then((response) => {
+      dispatch(setData(response.data));
+    });
+  } catch (error) {
+    dispatch(setError());
+  }
+};
 
-      dispatch(getBooksSuccess(data));
-    } catch (error) {
-      dispatch(getBooksError());
-    }
-  };
-}
+// add new book
+export const addBook = (data) => (dispatch) => {
+  dispatch(setLoading());
 
-// class CreateStore {
-//   books = [];
-//   count = 0;
-
-//   constructor() {
-//     makeAutoObservable(this, {
-//       booksCount: action
-//     });
-//   }
-
-//   // fetch All books
-//   async loadBooks() {
-//     const data = await axios
-//       .get("http://localhost:1337/books")
-//       .then((response) => response.data);
-//     return data;
-//   }
-
-//   booksCount() {
-//     const count = axios.get("http://localhost:1337/books/count").then(response => this.books.count = response.data)
-//     return count
-//   }
-
-//   // add new book
-//   addBook(name, author, genre, readed, show) {
-//     let data = {
-//       id: nanoid(),
-//       name: name,
-//       author: author,
-//       genre: genre,
-//       readed: readed,
-//       show: show,
-//     };
-//     axios.post("http://localhost:1337/books", data);
-//   }
+  try {
+    axios
+      .post("http://localhost:1337/books", data)
+      .then(() => dispatch(fetchBooks()));
+  } catch (error) {
+    dispatch(setError());
+  }
+};
 
 //   removeBook(id) {
 //     // this.books = this.books.filter((book) => book.id !== id);
@@ -160,5 +135,3 @@ export function fetchBooks() {
 //   //   });
 //   // }
 // }
-
-// export default new CreateStore();
