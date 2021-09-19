@@ -1,20 +1,27 @@
 // React
 import React from "react";
 
+// Redux
+import { useDispatch } from "react-redux";
+import { removeBook, readedBook } from "../redux/booksStore";
+
 // Bootstrap
 import { Button, Card, Form } from "react-bootstrap";
 
 export const BookCards = ({ name, author, genre, readed, id }) => {
   // Store
+  const dispatch = useDispatch();
 
   // Delete Button
   const handleDelete = (e) => {
-    // booksStore.removeBook(id);
+    e.preventDefault();
+    dispatch(removeBook(id))
   };
 
   // Readed button
   const handleChangeReaded = (e) => {
-    // booksStore.readedBtn(id);
+    e.preventDefault()
+    dispatch(readedBook(id, readed))
   };
 
   return (

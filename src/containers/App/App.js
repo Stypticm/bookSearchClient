@@ -35,7 +35,7 @@ export const App = () => {
     if (loading) return <Loading />;
     if (error) return <p>Cannot display books...</p>
     if (library.length === 0) return  <p>Книги не найдены</p>
-
+    
     return library.map((book) => (
       <BookCards
         key={book.id}
@@ -43,7 +43,6 @@ export const App = () => {
         author={book.author}
         genre={book.genre}
         readed={book.readed}
-        show={book.show}
         id={book.id}
       />
     ));

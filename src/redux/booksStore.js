@@ -34,7 +34,6 @@ export const { setLoading, setData, setError } = booksSlice.actions;
 // Selector - экспортируем чтобы была возможность получения данных в компоненте
 export const booksSelector = (state) => state.library;
 
-// Reducer
 export default booksSlice.reducer;
 
 // fetch All books
@@ -63,36 +62,50 @@ export const addBook = (data) => (dispatch) => {
   }
 };
 
-//   removeBook(id) {
-//     // this.books = this.books.filter((book) => book.id !== id);
-//     axios.delete(`http://localhost:1337/books/${id}`);
-//   }
+// delete book
+export const removeBook = (id) => (dispatch) => {
+  dispatch(setLoading());
 
-//   readedBtn(id) {
-//     // this.books = this.books.map((book) =>
-//     //   book.id === id ? { ...book, readed: !this.readed } : book
-//     // );
+  try {
+    axios
+      .delete(`http://localhost:1337/books/${id}`)
+      .then(() => dispatch(fetchBooks()));
+  } catch (error) {
+    dispatch(setError());
+  }
+};
 
-//     axios
-//       .put(`http://localhost:1337/books/${id}`, {
-//         readed: !this.readed,
-//       })
-//       .then((response) => {
-//         console.log(response.data.readed);
-//       });
-//   }
+// change status read/unread
+export const readedBook = (id, readed) => (dispatch) => {
+  dispatch(setLoading());
 
-//   filter(genre) {
-//     this.books.forEach((book) => {
-//       if (genre === "all") {
-//         book.show = true;
-//       } else if (genre === book.genre) {
-//         book.show = true;
-//       } else {
-//         book.show = false;
-//       }
-//     });
-//   }
+  try {
+    axios
+      .put(`http://localhost:1337/books/${id}`, {
+        readed: !readed,
+      })
+      .then(() => dispatch(fetchBooks()));
+  } catch (error) {
+    dispatch(setError());
+  }
+};
+
+// filter genres
+export const filterGenre = (genre) => (dispatch) => {
+  dispatch(setLoading());
+
+  try {
+    if (genre === "all") {
+      dispatch(fetchBooks());
+    } else {
+      axios.get(`http://localhost:1337/books?genre=${genre}`).then((response) => {
+      console.log(response.data)
+    });
+    }
+  } catch (error) {
+    dispatch(setError());
+  }
+};
 
 //   // Sort by: Name
 //   sortByName() {

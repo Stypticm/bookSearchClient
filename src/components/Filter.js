@@ -5,8 +5,20 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Col, Row } from "react-bootstrap";
 
+// Redux
+import { useSelector, useDispatch } from "react-redux";
+import { booksSelector, filterGenre } from "../redux/booksStore";
+
 export const Filter = () => {
   // Store
+  const dispatch = useDispatch();
+  // Reducers
+  const { library } = useSelector(booksSelector);
+
+  const handleFilter = (genre) => {
+    // e.preventDefault()
+    dispatch(filterGenre(genre));
+  };
 
   return (
     <div>
@@ -21,49 +33,37 @@ export const Filter = () => {
         <Col
           xs={12}
           className="filter_links"
-          onClick={() => console.log('filter all')}
+          onClick={() => handleFilter("all")}
         >
           All
         </Col>
-        <Col
-          xs={12}
-          className="filter_links"
-          onClick={() => console.log('filter romantic')}
-        >
-          Romantic
-        </Col>
-        <Col
-          xs={12}
-          className="filter_links"
-          onClick={() => console.log('filter comedy')}
-        >
-          History
-        </Col>
-        <Col
-          xs={12}
-          className="filter_links"
-          onClick={() => console.log('filter history')}
-        >
-          Comedy
-        </Col>
-        
-        <Col xs={12} style={{marginTop: '15px'}}>
+        {library.map((book) => (
+          <Col
+            xs={12}
+            className="filter_links"
+            onClick={() => handleFilter(book.genre)}
+          >
+            {book.genre}
+          </Col>
+        ))}
+
+        <Col xs={12} style={{ marginTop: "15px" }}>
           <h5>Filter Read/Unread</h5>
         </Col>
-        {/* <Col
+        <Col
           xs={12}
           className="filter_links"
-          onClick={() => booksStore.filterReadUnread(true)}
+          onClick={() => console.log("read books")}
         >
           Read
         </Col>
         <Col
           xs={12}
           className="filter_links"
-          onClick={() => booksStore.filterReadUnread(false)}
-        > 
+          onClick={() => console.log("unread books")}
+        >
           Unread
-        </Col> */}
+        </Col>
       </Row>
     </div>
   );
