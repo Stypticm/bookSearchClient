@@ -1,4 +1,3 @@
-// import { nanoid } from "nanoid";
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -98,53 +97,82 @@ export const filterGenre = (genre) => (dispatch) => {
     if (genre === "all") {
       dispatch(fetchBooks());
     } else {
-      axios.get(`http://localhost:1337/books?genre=${genre}`).then((response) => {
-      console.log(response.data)
-    });
+      axios
+        .get(`http://localhost:1337/books?genre=${genre}`)
+        .then((response) => {
+          dispatch(setData(response.data));
+        });
     }
   } catch (error) {
     dispatch(setError());
   }
 };
 
-//   // Sort by: Name
-//   sortByName() {
-//     this.books.sort((a, b) => {
-//       let fa = a.name.toLowerCase(),
-//         fb = b.name.toLowerCase();
-//       if (fa < fb) {
-//         return -1;
-//       }
-//       if (fa > fb) {
-//         return 1;
-//       }
-//       return 0;
-//     });
-//   }
+// Read / Unread filter
+export const filterReadUnread = (readed) => (dispatch) => {
+  dispatch(setLoading());
+  try {
+    if (readed) {
+      axios
+        .get(`http://localhost:1337/books?readed=${readed}`)
+        .then((response) => {
+          dispatch(setData(response.data));
+        });
+    } else if (!readed) {
+      axios
+        .get(`http://localhost:1337/books?readed=${readed}`)
+        .then((response) => {
+          dispatch(setData(response.data));
+        });
+    }
+  } catch (error) {
+    dispatch(setError());
+  }
+};
 
-//   // Read / Unread filter
-//   filterReadUnread(read) {
-//     this.books.forEach((book) => {
-//       if (read === book.readed) {
-//         book.show = true;
-//       } else if (read === book.readed) {
-//         book.show = true;
-//       } else {
-//         book.show = false;
-//       }
-//     });
-//   }
+// Sort by: Name
+export const sortByName = () => (dispatch) => {
+  dispatch(setLoading());
+  try {
+    axios.get(`http://localhost:1337/books`).then((response) => {
+      let byName = response.data.slice(0);
+      byName.sort(function (a, b) {
+        let x = a.name.toLowerCase();
+        let y = b.name.toLowerCase();
+        if (x < y) {
+          return -1;
+        }
+        if (x > y) {
+          return 1;
+        }
+        return 0;
+      });
+      dispatch(setData(byName));
+    });
+  } catch (error) {
+    dispatch(setError());
+  }
+};
 
-//   // Search
-//   // searchBook(name) {
-//   //   this.books.forEach((book) => {
-//   //     if (name === "") {
-//   //       book.show = true;
-//   //     } else if (book.name === name) {
-//   //       book.show = false
-//   //       console.log(book.name);
-//   //       return {...book, show: this.show}
-//   //     }
-//   //   });
-//   // }
-// }
+// Search
+export const searchBook = (name) => (dispatch) => {
+  let entryName = name.toLowerCase();
+  let neededBooks = [];
+  try {
+    if (name === "") {
+      dispatch(fetchBooks());
+    } else if (name !== "") {
+      axios.get("http://localhost:1337/books").then((response) => {
+        let books = response.data.slice(0);
+        books.forEach((element) => {
+          if (element.name.toLowerCase().indexOf(entryName) !== -1) {
+            neededBooks.push(element);
+          }
+        });
+        dispatch(setData(neededBooks))
+      });
+    }
+  } catch (error) {
+    dispatch(setError());
+  }
+};

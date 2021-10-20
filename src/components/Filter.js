@@ -7,7 +7,14 @@ import { Col, Row } from "react-bootstrap";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
-import { booksSelector, filterGenre } from "../redux/booksStore";
+import {
+  booksSelector,
+  filterGenre,
+  filterReadUnread,
+} from "../redux/booksStore";
+
+// Random id
+import { nanoid } from "nanoid";
 
 export const Filter = () => {
   // Store
@@ -16,8 +23,19 @@ export const Filter = () => {
   const { library } = useSelector(booksSelector);
 
   const handleFilter = (genre) => {
-    // e.preventDefault()
     dispatch(filterGenre(genre));
+  };
+
+  const uniqueGenre = () => {
+    let unique = [];
+    library.map((book) => {
+      if (!unique.includes(book.genre)) unique.push(book.genre);
+    });
+    return unique;
+  };
+
+  const handleReadUnread = (status) => {
+    dispatch(filterReadUnread(status));
   };
 
   return (
@@ -37,13 +55,14 @@ export const Filter = () => {
         >
           All
         </Col>
-        {library.map((book) => (
+        {uniqueGenre().map((book) => (
           <Col
+            key={nanoid()}
             xs={12}
             className="filter_links"
-            onClick={() => handleFilter(book.genre)}
+            onClick={() => handleFilter(book)}
           >
-            {book.genre}
+            {book}
           </Col>
         ))}
 
@@ -53,14 +72,14 @@ export const Filter = () => {
         <Col
           xs={12}
           className="filter_links"
-          onClick={() => console.log("read books")}
+          onClick={() => handleReadUnread(true)}
         >
           Read
         </Col>
         <Col
           xs={12}
           className="filter_links"
-          onClick={() => console.log("unread books")}
+          onClick={() => handleReadUnread(false)}
         >
           Unread
         </Col>

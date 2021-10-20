@@ -5,21 +5,33 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 // useSelector - читаем данные из store
 // useDispatch - получение actions
-import { booksSelector, fetchBooks } from "../../redux/booksStore";
+import {
+  booksSelector,
+  fetchBooks,
+  sortByName,
+  searchBook,
+} from "../../redux/booksStore";
 
 // Import Components
 import { BookCards } from "../../components/BookCards";
 import { AddBook } from "../../components/AddBook";
 import { Filter } from "../../components/Filter";
 import { Loading } from "../../components/Loading";
-// import { Search } from "../../components/Search";
 
 // Style
 import "./App.css";
 
 // Bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button, Col, Row, NavDropdown, Navbar } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Row,
+  NavDropdown,
+  Navbar,
+  FormControl,
+  InputGroup,
+} from "react-bootstrap";
 
 export const App = () => {
   // Reducers
@@ -33,9 +45,9 @@ export const App = () => {
 
   const renderLibrary = () => {
     if (loading) return <Loading />;
-    if (error) return <p>Cannot display books...</p>
-    if (library.length === 0) return  <p>Книги не найдены</p>
-    
+    if (error) return <p>Ошибка запросы...</p>;
+    if (library.length === 0) return <p>Книги не найдены</p>;
+
     return library.map((book) => (
       <BookCards
         key={book.id}
@@ -43,13 +55,18 @@ export const App = () => {
         author={book.author}
         genre={book.genre}
         readed={book.readed}
+        show={book.show}
         id={book.id}
       />
     ));
   };
 
   const sortName = () => {
-    // booksStore.sortByName();
+    dispatch(sortByName());
+  };
+
+  const handleSearch = (e) => {
+    dispatch(searchBook(e.target.value));
   };
 
   return (
@@ -81,12 +98,20 @@ export const App = () => {
         <Col sm={8} className="content-body__main-content">
           <Row>
             <Col style={{ display: "flex", justifyContent: "space-between" }}>
-              <Col xs={2}>
+              <Col xs={4}>
                 <NavDropdown title="Sort by: ">
                   <NavDropdown.Item onClick={sortName}>Name</NavDropdown.Item>
                 </NavDropdown>
               </Col>
-              <Col xs={10}>{/* <Search /> */}</Col>
+              <Col xs={6}>
+                <InputGroup className="mb-3">
+                  <InputGroup.Text>Search</InputGroup.Text>
+                  <FormControl
+                    aria-label="searchBook"
+                    onChange={(e) => handleSearch(e)}
+                  />
+                </InputGroup>
+              </Col>
             </Col>
             <Col xs={12}>{renderLibrary()}</Col>
           </Row>
